@@ -1,0 +1,43 @@
+﻿@model Models.ViewModels.PostUserViewModel
+@{
+
+    ViewData["Title"] = "Edit user page";
+}
+<h1 class="display-4">Edit user</h1>
+<a asp-action="Index">Back</a>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <input type="hidden" asp-for="@Model.User.UserId" />
+            <div class="form-group">
+                <label class="control-label">First Name</label>
+                <input asp-for="@Model.User.FirstName" class="form-control" />
+                <span asp-validation-for="@Model.User.FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.User.LastName" class="control-label">Last Name</label>
+                <input asp-for="@Model.User.LastName" class="form-control" />
+                <span asp-validation-for="@Model.User.LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.User.UserTypeId" class="control-label">User Type</label>
+                <select asp-items="@(new SelectList(Model.UserTypeList, "UserTypeId", "Name", Model.User.UserTypeId))" asp-for="@Model.User.UserTypeId" class="form-control">
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.User.YearGroupId" class="control-label">Year group</label>
+                <select asp-items="@(new SelectList(Model.YearGroupList, "YearGroupId", "Name", Model.User.YearGroupId))" asp-for="@Model.User.YearGroupId" class="form-control">
+                </select>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Edit user" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+
+
+
+</div>
+

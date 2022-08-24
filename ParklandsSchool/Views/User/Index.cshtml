@@ -1,0 +1,27 @@
+﻿@model Models.ViewModels.UserListViewModel
+@{
+    ViewData["Title"] = "User page";
+}
+
+
+<script type="text/javascript">
+    function SortTable(sortColumn, sortDirection, currentPage) {
+        $.ajax({
+            async: false,
+            url: "@Url.Action("SortUserResultsTable")",
+            data: { sortColumn: sortColumn, sortDirection: sortDirection, CurrentPage: currentPage},
+            type: 'GET',
+            success: function (data) {
+                $("#userResults").html(data);
+            }
+        });
+    }
+</script>
+
+<div class="text-center">
+    <h1 class="display-4">User List</h1>
+    <partial name="_UserResults" for="@Model.UserResults"/>
+
+    <a asp-action="Create">Create User</a>
+ 
+</div>

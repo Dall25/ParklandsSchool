@@ -1,0 +1,75 @@
+﻿@model Models.ViewModels.UserResults
+
+
+
+<div id="userResults">
+    <table class="table" id="userResults">
+        <thead>
+            <tr>
+                <th><a onclick="SortTable(1, @(Model.Sorting.SortDirection == "asc" ? "'desc'" : "'asc'"))">First Name @((Model.Sorting.SortColumn == 1 ? (Model.Sorting.SortDirection == "asc" ? "↑" : Model.Sorting.SortDirection == "desc" ? "↓": "") : ""))</a></th>
+                <th><a onclick="SortTable(2, @(Model.Sorting.SortDirection == "asc" ? "'desc'" : "'asc'"))">Last Name @((Model.Sorting.SortColumn == 2 ? (Model.Sorting.SortDirection == "asc" ? "↑" : Model.Sorting.SortDirection == "desc" ? "↓": "") : ""))</a></th>
+                <th><a onclick="SortTable(3, @(Model.Sorting.SortDirection == "asc" ? "'desc'" : "'asc'"))">User Type @((Model.Sorting.SortColumn == 3 ? (Model.Sorting.SortDirection == "asc" ? "↑" : Model.Sorting.SortDirection == "desc" ? "↓": "") : ""))</a></th>
+                <th><a onclick="SortTable(4, @(Model.Sorting.SortDirection == "asc" ? "'desc'" : "'asc'"))">Year Group @((Model.Sorting.SortColumn == 4 ? (Model.Sorting.SortDirection == "asc" ? "↑" : Model.Sorting.SortDirection == "desc" ? "↓": "") : ""))</a></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Users)
+            {
+                <tr>
+                    <td>
+                        <label>@item.FirstName</label>
+                    </td>
+                    <td>
+                        <label>@item.LastName</label>
+                    </td>
+                    <td>
+                        <label>@item.UserType?.Name</label>
+                    </td>
+                    <td>
+                        <label>@item.YearGroup?.Name</label>
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-userId="@item.UserId">Edit</a>
+                    </td>
+                    <td>
+                        <form asp-action="Delete" asp-route-userId="@item.UserId" 
+                        onclick="return confirm('Are you sure you want to delete this?')">
+                        <button type="submit" class="btn btn-default"><i class="fas fa-trash-alt text-white"></i>Delete</button>
+                       </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                @if (Model.Paging.CurrentPage != 1)
+                {
+                    <li class="page-item"><a class="page-link" onclick="SortTable(@Model.Sorting.SortColumn,'@Model.Sorting.SortDirection',(@Model.Paging.CurrentPage - 1))">Previous</a></li>
+                }
+
+                @for (int i = 1; i <= Model.Paging.NumberOfPages; i++)
+                {
+                    @if (i == Model.Paging.CurrentPage)
+                    {
+                        <li class="page-item active"><a onclick="SortTable(@Model.Sorting.SortColumn,'@Model.Sorting.SortDirection',@i)" class="page-link">@i</a></li>
+                    }
+                    else
+                    {
+                        <li class="page-item"><a onclick="SortTable(@Model.Sorting.SortColumn,'@Model.Sorting.SortDirection',@i)" class="page-link">@i</a></li>
+                    }
+
+                }
+
+
+                @if (Model.Paging.CurrentPage != Model.Paging.NumberOfPages)
+                {
+                    <li class="page-item"><a class="page-link" onclick="SortTable(@Model.Sorting.SortColumn,'@Model.Sorting.SortDirection',(@Model.Paging.CurrentPage + 1))">Next</a></li>
+                }
+            </ul>
+        </nav>
+    </div>
+</div>
